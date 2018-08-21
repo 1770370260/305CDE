@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Favourite List</title>
+    	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  
+    <!-- Custom styles for this template -->
+    <!-- <link href="css/halfslider.css" rel="stylesheet"> -->
+    <!-- <link href="css/web.css" type="text/css " rel="stylesheet"/> -->
+	<link href="css/style.css" type="text/css " rel="stylesheet"/> 
+  
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    
+	 
+  </head>
+  
+   <!--<style>
+        <table id="mySearch">
+         <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+          </tr>
+          <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+          </tr>
+		</table>  
+   </style>-->
+<style>
+.highlight{
+    font-weight:bold;
+    color:green;
+    background:yellow;
+}
+
+.container {
+    position: relative;
+    font-family: Arial;
+}
+
+.text-block {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: black;
+    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+</style>
+
+
+
+   
+<script>
+$.noConflict();
+jQuery( document ).ready(function( $ ) {
+
+    
+	//get login information
+    var userdata = localStorage.getItem("mylogin");
+	
+	//mylogin= "hem"//assign mylogin temporarily
+	
+	//Login Validation 
+	//if(mylogin==""){
+	
+	///if(userdata==""){
+	///alert("Please login first");
+	///return;
+	///} else {
+       //getfavour(mylogin);
+	///   getfavour(userdata);
+    ///} 
+  
+   // API call for temperature
+   var temp = localStorage.getItem("curTemp");
+   document.getElementById("temperature").innerHTML = temp + "&deg;C";
+   
+   // API call for drug-abuse website Title
+   ///sFavour = "https%3A%2F%2Fwww.humanconnectome.org%2F?callback=foo"
+   ///sFavour = "https%3A%2F%2Fwww.drugabuse.gov%2Fpublications%2Fdrugfacts%2Funderstanding-drug-use-addiction"
+   // "https://www.newportacademy.com/resources/substance-abuse/teen-opioid-dependence/"
+   var sFavour1 = "https%3A%2F%2Fwww.newportacademy.com%2Fresources%2Fsubstance-abuse%2Fteen-opioid-dependence%2F" ;
+   // "http://addicthelptherapy.netlify.com/alcohol-abuse-websites"  
+   var sFavour2 = "https%3A%2F%2Fwww.newportacademy.com%2Fresources%2Fsubstance-abuse%2Fteen-opioid-dependence%2F";
+   //  "https://drugfreegeneration.org/what-we-do/community-programs-and-initiatives.html"
+   var sFavour3 = "https%3A%2F%2Fdrugfreegeneration.org%2Fwhat-we-do%2Fcommunity-programs-and-initiatives.html";
+   //  "https://www.drugfreeworld.org/drugfacts/the-truth-about-drugs.html"
+   var sFavour4 = "https%3A%2F%2Fwww.drugfreeworld.org%2Fdrugfacts%2Fthe-truth-about-drugs.html";
+   //  "https://tsnnews.com/mother-drug-addict-donna-m/"
+   var sFavour5 = "https%3A%2F%2Ftsnnews.com%2Fmother-drug-addict-donna-m%2F";
+   //  "https://esircworldwide.com/drug-abuse-education-girls-and-drug-abuse-drug-abuse-resources/"
+   var sFavour6 = "https%3A%2F%2Fesircworldwide.com%2Fdrug-abuse-education-girls-and-drug-abuse-drug-abuse-resources%2F";
+
+
+   
+// Favour 1
+//		$.ajax(
+//				{
+//					url: "https://textance.herokuapp.com/rest/title/" + sFavour1,                                             
+//					type: 'GET',
+//					dataType : "jsonp",
+//					data: dataFromServer,
+					//async: true,
+//					success: function(data) {
+                    //var matches = data.match(/<title>(.*?)<\/title>/);
+                    //alert(matches[1]);
+//					alert(data);
+//                    }   
+//				});
+				
+// Favour 2
+//        	$.ajax(
+//				{
+//					url: "https://textance.herokuapp.com/rest/title/" + sFavour2,                                             
+//					async: true,
+//                    success: function(data) {
+//                    var matches = data.match(/<title>(.*?)<\/title>/);
+//                    alert(matches[1]);
+//                    }  
+//				});	
+	
+
+// Favour 3
+//		$.ajax(
+//				{
+//					url: "https://textance.herokuapp.com/rest/title/" + sFavour3,                                             
+//					type: 'GET',
+//					dataType : "jsonp",
+//					data: dataFromServer,
+					//async: true,
+//					success: function(data) {
+                    //var matches = data.match(/<title>(.*?)<\/title>/);
+                    //alert(matches[1]);
+//					alert(data);
+//                    }   
+//				});
+				
+// Favour 4
+//        	$.ajax(
+//				{
+//					url: "https://textance.herokuapp.com/rest/title/" + sFavour4,                                             
+//					async: true,
+//                    success: function(data) {
+//                    var matches = data.match(/<title>(.*?)<\/title>/);
+//                    alert(matches[1]);
+//                    }  
+//				});		
+
+
+// Favour 5
+//		$.ajax(
+//				{
+//					url: "https://textance.herokuapp.com/rest/title/"  + sFavour5,                                             
+//					type: 'GET',
+//					dataType : "jsonp",
+//					data: dataFromServer,
+					//async: true,
+//					success: function(data) {
+                    //var matches = data.match(/<title>(.*?)<\/title>/);
+                    //alert(matches[1]);
+//					alert(data);
+//                    }   
+//				});
+				
+// Favour 6
+//        	$.ajax(
+//				{
+//					url: "https://textance.herokuapp.com/rest/title/" + sFavour6,                                             
+//					async: true,
+//                    success: function(data) {
+//                    var matches = data.match(/<title>(.*?)<\/title>/);
+//                    alert(matches[1]);
+//                    }  
+//				});		
+
+
+
+	
+//   $.ajax({
+//    url: "http://127.0.0.1:8080/healthpage",
+//    async: true,
+//    success: function(data) {
+//    var matches = data.match(/<title>(.*?)<\/title>/);
+//    alert("Title:"+matches[1]);
+//    }   
+//     });
+
+   
+   
+   
+   
+   if(userdata!=""){
+	getfavour(userdata);
+   }
+	
+   ///alert("user: " + userdata);
+   ///alert("run: " + sessionStorage.getItem("hasCodeRunBefore"));   
+  
+   
+   //get login info
+   var linkedinfo =localStorage.getItem("loginInfo"); 
+	///alert("user: " + userdata);
+	///alert("user info: " + linkedinfo);
+   
+	
+	loginUpdate(userdata, linkedinfo);
+	   
+  
+ // handle button clicks on search function
+  $("#btnSearch").click(function()
+	{
+		
+		var tempSearch;
+		tempSearch = document.forms["search"]["searchkey"].value;
+		if(tempSearch == "")
+			{
+				alert("Please input your keyword.");
+			}
+		else
+			{
+				///var keyword=$("#searchkey").val();
+				var keyword= tempSearch; 
+				var searchdata="searchvalue="+keyword;
+				
+				///alert(searchdata);  ///
+				
+        
+			    $("#results").html('');
+		
+				$.ajax(
+				{
+					//url: "http://port-9000.305server-collkc471330.codeanyapp.com/Search",          //codeanywhere
+					url: "http://127.0.0.1:8080/Search",                                             //local server
+					type: 'POST',
+					data: searchdata,
+					success: function(resultReturn)
+					{ 
+						//alert("search success");
+                        ///alert("search success=" + resultReturn);
+						var linkeditsearch;
+				  
+				  localStorage.setItem("searchKey",keyword);
+                  localStorage.setItem("searchResult",resultReturn);
+				  
+				  window.location.href ="/Search"; //Go to Search Result Page
+		 					 
+					},error: function (xhr, textStatus, errorThrown) 
+					{
+						alert("search failed");
+						console.log(textStatus);
+                        alert(xhr.responseText);
+      		        }  
+				});
+			}
+        });
+
+ 
+ 
+ 
+  
+    
+  
+  // Handle Favourite List
+  //$("button").click(function()
+  $(".addbtn").click(function()
+	{
+		var favtext;
+		var favcat;
+		
+		if (checkUser()) {
+		
+		if(this.id=="fav1"){
+		   favtext=$("#fav1text").html();
+		   favcat = 1;
+		}
+		else if(this.id=="fav2"){
+		  favtext=$("#fav2text").html();
+		  favcat = 2;
+		}
+	    else if(this.id=="fav3"){
+		  favtext=$("#fav3text").html();
+		  favcat = 3;
+		}	
+	    else if(this.id=="fav4"){
+		  favtext=$("#fav4text").html();
+		  favcat = 4;
+		}
+        else if(this.id=="fav5"){
+		  favtext=$("#fav5text").html();
+		  favcat = 5;
+		}	
+	    else if(this.id=="fav6"){
+		  favtext=$("#fav6text").html();
+		  favcat = 6;
+		}
+		//else if(this.id=="fav7"){
+		//  favtext=$("#fav7text").html();
+		//}
+		
+		  ///alert("Add favour list");  ///
+          //var mydata="user="+mylogin+"&fav="+favtext;
+		  var mydata="user="+userdata+"&fav="+favtext+"&cat="+favcat;
+		        ///alert(mydata);
+				$.ajax(
+				{
+					/*url: "http://port-9000.305server-idm4smb32469.codeanyapp.com/Login", */
+					url: "http://127.0.0.1:8080/addfavourlist",
+					type: 'POST',
+					data: mydata,
+					async: false,
+					success: function(resultReturn)
+					{ 
+						//alert("search success");
+                  ///alert("Return:"+resultReturn);
+						//alert(JSON.stringify(resultReturn));
+			      //var _stringObj = JSON.stringify(resultReturn);
+			      //var stringObj = JSON.parse(resultReturn);
+				  var num;
+				  if (resultReturn != "0" ) {
+				      ///getfavour(userdata);
+					  alert("favourite list is added");
+				  } else {
+					  alert("favourite already existed");  
+				  }
+				  
+			    ///  for(i = 0; i < stringObj.length; i++)
+                ///  {
+					    //var num = i + 1;
+				///		num = i + 1;
+					    //document.getElementsByClassName("tabnum")[i].innerHTML = num;
+					    //document.getElementsByClassName("tabname")[i].innerHTML = stringObj[i].texttitle;
+				        //document.getElementsByClassName("tablink")[i].innerHTML = stringObj[i].command;
+				///        alert("cat=" + stringObj[i].cat);
+						
+				///		switch (stringObj[i].cat) {
+                ///        case "1":
+                ///        document.getElementById("fav1no").style.display = "inline-block";
+				///		document.getElementById("fav1").style.display = "none";
+						//document.getElementById("fav1flag").style.display = "inline-block";
+						//alert("cat 1 added");
+				///		break;
+                ///        case "2":
+				///		document.getElementById("fav2no").style.display = "inline-block";
+				///		document.getElementById("fav2").style.display = "none";
+						//document.getElementById("fav2flag").style.display = "inline-block";
+                        //alert("cat 2 added");
+				///		break;
+                ///        case "3":
+                ///        document.getElementById("fav3no").style.display = "inline-block";
+				///		document.getElementById("fav3").style.display = "none";
+						//document.getElementById("fav3flag").style.display = "inline-block";
+						//alert("cat 3 added");
+                ///        break;
+                ///        case "4":
+				///		document.getElementById("fav4no").style.display = "inline-block";
+				///		document.getElementById("fav4").style.display = "none";
+                        //document.getElementById("fav4flag").style.display = "inline-block";
+						//alert("cat 4 added");
+                ///        break;
+				///		case "5":
+				///		document.getElementById("fav5no").style.display = "inline-block";
+				///		document.getElementById("fav5").style.display = "none";
+						///document.getElementById("fav5flag").style.display = "inline-block";
+						///alert("cat 5 added");
+				///		break;
+				///		case "6":
+				///		document.getElementById("fav6no").style.display = "inline-block";
+				///		document.getElementById("fav6").style.display = "none";
+						///document.getElementById("fav6flag").style.display = "inline-block";
+						///alert("cat 6 added");
+				///		}
+				///	 }
+				 
+					 
+					},error: function (xhr, textStatus, errorThrown) 
+					{
+						//alert("search failed");
+						//console.log(textStatus);
+                        alert("error in add favour");  //
+						//alert(textStatus);             //
+						//alert(xhr.responseText);
+      		        }
+				
+				});
+				
+			getfavour(userdata); //reload favour list	
+		}	
+   });
+   
+   
+   
+///   $("#readfav").click(function()
+///	{
+		///alert("read favour list and add to table");
+		
+        
+///          var mydata="user="+mylogin;
+        
+///				$.ajax(
+///				{
+					/*url: "http://port-9000.305server-idm4smb32469.codeanyapp.com/Login", */
+///					url: "http://127.0.0.1:8080/readfavourlist",
+///					type: 'POST',
+///					data: mydata,
+///					success: function(resultReturn)
+///					{ 
+						//alert("search success");
+///                        alert(resultReturn);
+						//alert(JSON.stringify(resultReturn));
+			    //  var _stringObj = JSON.stringify(resultReturn);
+///			      var stringObj = JSON.parse(resultReturn);
+///				  alert(stringObj.length);
+///				  var num;
+///			      for(i = 0; i < stringObj.length; i++)
+///                   {
+					    //var num = i + 1;
+						//    num = i + 1;
+					    //document.getElementsByClassName("tabnum")[i].innerHTML = num;
+						
+						//Add favourite list to table
+						///document.getElementsByClassName("tabnum")[i].innerHTML = i + 1;
+					    ///document.getElementsByClassName("tabname")[i].innerHTML = stringObj[i].user + "<div id='"+stringObj[i]._id+"' class='removebutton'>Remove</a>";
+				        ///document.getElementsByClassName("tablink")[i].innerHTML = stringObj[i].favourite;
+					    ///document.getElementsByClassName("removelink")[i].innerHTML = stringObj[i]._id;
+					    
+					
+///				     }
+///					},error: function (xhr, textStatus, errorThrown) 
+///					{
+						//alert("search failed");
+						//console.log(textStatus);
+///						alert("error in read favour");  //
+///						alert(textStatus);             //
+///                        alert(xhr.responseText);
+///      		}
+			
+///				});
+			
+///   });
+   
+   
+   
+   
+///   $(".removelink").click(function(e)
+   $(".rmvbtn").click(function()
+   {
+		var removeid;
+		//alert($(this).closest('tr').children('td.removelink').text());
+		//removeid=$(this).closest('tr').children('td.removelink').text();
+        
+        //alert($(this).closest('tr').children('td.removelink').text());
+		//removeid=$(this).closest('tr').children('td.removelink').text();		
+	    
+		if(this.id=="fav1no"){
+		   removeid = 1;
+		}
+		else if(this.id=="fav2no"){
+		   removeid = 2;
+		}
+	    else if(this.id=="fav3no"){
+		   removeid = 3;
+		}	
+	    else if(this.id=="fav4no"){
+		   removeid = 4;
+		}
+        else if(this.id=="fav5no"){
+		   removeid = 5;
+		}	
+	    else if(this.id=="fav6no"){
+		   removeid = 6;
+		}
+        
+		
+		  var mydata="user="+userdata+"&cat="+removeid;
+          //var mydata="removeid="+removeid;
+           ///alert(mydata);
+				$.ajax(
+				{
+					/*url: "http://port-9000.305server-idm4smb32469.codeanyapp.com/Login", */
+					url: "http://127.0.0.1:8080/removefavourlist",
+					type: 'POST',
+					data: mydata,
+					async: false,
+					success: function(resultReturn)
+					{ 
+						alert("remove success");
+                        ///alert(resultReturn);
+						//alert(JSON.stringify(resultReturn));
+			            //var _stringObj = JSON.stringify(resultReturn);
+			            //var stringObj = JSON.parse(resultReturn);
+				  				  
+				  if (resultReturn != "0" ) {
+				  ///getfavour(userdata);
+				  } else {
+					  alert("favourite already removed");  
+				  }
+
+				  //Hide remove button, add button is displayed
+			      ///for(i = 0; i < stringObj.length; i++)
+                   /// {
+				   ///    var num = i + 1;
+					    ///document.getElementsByClassName("tabnum")[i].innerHTML = num;
+					    ///document.getElementsByClassName("tabname")[i].innerHTML = stringObj[i].texttitle;
+				        ///document.getElementsByClassName("tablink")[i].innerHTML = stringObj[i].command;
+					///	alert("cat=" + stringObj[i].cat);
+						
+					///	switch (stringObj[i].cat) {
+                    /// case "1":
+					///	document.getElementById("fav1no").style.display = "none";
+					///	document.getElementById("fav1").style.display = "inline-block";
+					/// alert("cat 1 remove");
+					///	break;
+                    /// case "2":
+					///	document.getElementById("fav2no").style.display = "none";
+					///	document.getElementById("fav2").style.display = "inline-block";
+                    /// alert("cat 2 remove");
+					///	break;
+                    /// case "3":
+                    /// document.getElementById("fav3no").style.display = "none";
+					///	document.getElementById("fav3").style.display = "inline-block";
+                    ///    alert("cat 3 remove"); 
+					///	break;
+                    ///    case "4":
+                    ///    document.getElementById("fav4no").style.display = "none";
+					///	document.getElementById("fav4").style.display = "inline-block";
+					///	alert("cat 4 remove");
+					///	break;
+					///	case "5":
+					///	document.getElementById("fav5no").style.display = "none";
+					///	document.getElementById("fav5").style.display = "inline-block";
+                    ///    alert("cat 5 remove");
+					///	break;
+					///	case "6":
+					///	document.getElementById("fav6no").style.display = "none";
+					///	document.getElementById("fav6").style.display = "inline-block";
+					///	alert("cat 6 remove");
+					///	break;
+					///	}
+
+     			    /// }
+					},error: function (xhr, textStatus, errorThrown) 
+					{
+						//alert("search failed");
+						//console.log(textStatus);
+                        alert("error in remove favour");  //
+						///alert(textStatus);                //
+						///alert(xhr.responseText);
+      		        }
+				});
+			getfavour(userdata); //reload favour list
+   });
+   
+   //Change login/logut button 
+   ///		function getCookie(cname) {
+   ///   		var name = cname + "=";
+   ///	    	var ca = document.cookie.split(';');
+	///			for(var i=0; i<ca.length; i++) {
+	///				var c = ca[i];
+	///				while (c.charAt(0)==' ') c = c.substring(1);
+	///				if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+	///			}
+	///			return "";
+	///	}
+		
+	///	if (getCookie("token")){
+	///			document.getElementById("nav_login").style.display = "none";
+	///			document.getElementById("nav_logout").style.display = "inline-block";
+	///	}
+	///	else{
+	///			document.getElementById("nav_logout").style.display = "none";
+	///			document.getElementById("nav_login").style.display = "inline-block";
+	///	}
+
+	//get user's favourite list	
+		function getfavour(mylogin) {
+		    var myuser="user="+mylogin;      
+		     ///alert(myuser);
+		
+            	$.ajax(
+				{
+					/*url: "http://port-9000.305server-idm4smb32469.codeanyapp.com/readfavourlist", */
+					url: "http://127.0.0.1:8080/readfavourlist",
+					type: 'POST',
+					data: myuser,
+					async: false,
+					success: function(resultReturn)
+					{ 
+						//alert("search success");
+                        ///alert(resultReturn);
+						//alert(JSON.stringify(resultReturn));
+						//var _stringObj = JSON.stringify(resultReturn);
+			            var stringObj = JSON.parse(resultReturn);
+				        ///alert(stringObj.length);
+				        var num;
+			      for(i = 0; i < stringObj.length; i++)
+                   {
+				           
+					    //document.getElementsByClassName("tabnum")[i].innerHTML = i + 1;
+					    //document.getElementsByClassName("tabname")[i].innerHTML = stringObj[i].user + "<div id='"+stringObj[i]._id+"' class='removebutton'>Remove</a>";
+				        //document.getElementsByClassName("tablink")[i].innerHTML = stringObj[i].favourite;
+					    //document.getElementsByClassName("removelink")[i].innerHTML = stringObj[i]._id;
+						///alert("cat=" + stringObj[i].cat);
+						
+						
+						//$("#fav1flag").append("yes");
+						
+						//Hide add button, remove button is displayed
+						switch (stringObj[i].cat) {
+                        case "1":
+                        document.getElementById("fav1no").style.display = "inline-block";
+						document.getElementById("fav1").style.display = "none";
+						//document.getElementById("fav1flag").style.display = "inline-block";
+                        ///alert("cat 1 read");
+						break;
+                        case "2":
+                        document.getElementById("fav2no").style.display = "inline-block";
+						document.getElementById("fav2").style.display = "none";
+						//document.getElementById("fav2flag").style.display = "inline-block";
+                        ///alert("cat 2 read");
+						break;
+                        case "3":
+                        //document.getElementById("fav3flag").style.display = "inline-block";
+                        document.getElementById("fav3no").style.display = "inline-block";
+                        document.getElementById("fav3").style.display = "none";
+						///alert("cat 3 read"); 
+						break;
+                        case "4":
+                        //document.getElementById("fav4flag").style.display = "inline-block";
+                        document.getElementById("fav4no").style.display = "inline-block";
+						document.getElementById("fav4").style.display = "none";
+						///alert("cat 4 read");
+						break;
+						case "5":
+						//document.getElementById("fav5flag").style.display = "inline-block";
+						document.getElementById("fav5no").style.display = "inline-block";
+						document.getElementById("fav5").style.display = "none";
+                        ///alert("cat 5 read");
+						break;
+						case "6":
+						//document.getElementById("fav6flag").style.display = "inline-block";
+						document.getElementById("fav6no").style.display = "inline-block";
+						document.getElementById("fav6").style.display = "none";
+						///alert("cat 6 read");
+						break;
+						}
+						
+				     }
+					},error: function (xhr, textStatus, errorThrown) 
+					{
+						//alert("search failed");
+						//console.log(textStatus);
+						alert("error in read favour");  //
+						///alert(textStatus);             //
+                        ///alert(xhr.responseText);
+      		        }
+				});  
+		    }
+
+// handle logout button clicks
+       $("#nav_logout").click(function()
+	       {    
+	            var myuser2="user="+userdata; 
+				///alert("callnow "+ myuser2);
+				
+				$.ajax(
+				{
+					//url: "http://port-9000.305server-collkc471330.codeanyapp.com/Logout",   //codeanywhere
+					url: "http://127.0.0.1:8080/Logout",                                      //local server
+					type: 'POST',
+				    data: myuser2,
+					async: false,		
+					success: function(resultReturn)
+					{ 
+			          
+                     ///alert(resultReturn);
+                     //if(resultReturn=="1"){
+                     //window.location.href="/index";
+                     localStorage.setItem("mylogin","");
+					 userdata= localStorage.getItem("mylogin");
+					 localStorage.setItem("loginInfo","");
+					 linkedinfo = localStorage.getItem("loginInfo");
+					 sessionStorage.setItem("hasCodeRunBefore", "");  //reset login status
+					 ///alert("logout success");
+					 ///alert("logout user:" + userdata);
+					 //loginUpdate(userdata);
+					 loginUpdate("","");
+					 
+                     //}else{
+                     //alert("logout error");
+                     //return;
+                     // }
+                        
+				  	},error: function (xhr, textStatus, errorThrown) 
+					{
+						///alert("login failed");
+						alert("logout failed");
+						console.log(textStatus);
+                        alert(xhr.responseText);
+      		        }
+				});
+			
+      });
+
+
+
+
+	
+//Verify user login before adding favourite
+function checkUser() {
+   
+   /// alert("Check user list");  
+   if(userdata==""){
+	alert("Please login first");
+    return false;
+   } else {
+    return true;
+	}
+  
+}
+			
+});
+</script>
+<script>
+//Update menu bar on login status	
+function loginUpdate(logindata, information) {	
+		
+			///alert("LOGIN:" + logindata);
+
+            if (logindata != ""){
+				document.getElementById("nav_login").style.display = "none";
+				//document.getElementById("nav_signup").style.display = "none";
+				document.getElementById("nav_logout").style.display = "inline-block";
+				//document.getElementById("nav_editor").style.display = "inline-block";
+				document.getElementById("userinfo").innerHTML = information;
+			}
+			else{
+				document.getElementById("nav_logout").style.display = "none";
+				//document.getElementById("nav_editor").style.display = "none";
+				document.getElementById("nav_login").style.display = "inline-block";
+				//document.getElementById("nav_signup").style.display = "inline-block";
+				document.getElementById("userinfo").innerHTML = "";
+				}
+	
+}
+
+//Filter search keyword on current page's content    
+function tableFilter() {
+
+		var input, filter, table, tr, td, i;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("myTable");
+		tr = table.getElementsByTagName("tr");
+		///alert("filter=" + filter);
+		///alert("tr length=" + tr.length);
+		td =""; //reset table row
+		for (i = 0; i < tr.length; i++) {
+		    			
+			td = tr[i].getElementsByTagName("td")[0];
+			///alert("i="+i);
+			///alert(td);
+			///alert(td.innerHTML.toUpperCase().indexOf(filter));	
+			if (td) {
+				if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+				    var innerHTML = td.innerHTML;
+					var index = td.innerHTML.toUpperCase().indexOf(filter);
+					///alert("innerHTML=" + innerHTML);
+					///alert("index=" + index);
+					innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+filter.length) + "</span>" + innerHTML.substring(index + filter.length);
+	                tr[i].innerHTML = innerHTML;
+					//tr[i].style.display = "";
+				} else {
+					//tr[i].style.display = "none";
+				}
+			}       
+		}
+	}
+
+
+///function highlight(text) {
+///  var inputText = document.getElementById("inputText");
+///  var innerHTML = inputText.innerHTML;
+///  var index = innerHTML.indexOf(text);
+///  if (index >= 0) { 
+///   innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+///   inputText.innerHTML = innerHTML;
+///  }
+///}	
+
+//Highlight whole keyword on current page's content	
+function tableFilter2(){
+
+var term = $('#myInput').val().trim();
+///alert("compare=" +term);
+var source = $('.searchable').text();
+    var words = source.split(' ');
+    var output = '';
+
+    if (term.length > 0) {
+    
+    $.each(words, function(idx, word) {
+        //if (term === word.toLowerCase()) {
+		   ///var compword = "/^" + term +".*$/";  
+		   //alert("compare=" +compword);
+		   //alert("word=" +word);
+		   		   	   
+		    ///if (term==word){
+            ///alert("higlight=" +word);           
+		    ///output += '<span class="highlight">' + word + '</span> ';
+            ///} else {
+            /// output += word + ' ';   
+            ///}
+			
+			switch (word) {
+                   case term:
+					output += ' <span class="highlight"> ' + word + '</span> ';
+					break;
+                    case '<span':
+					output += '';
+					break;
+                    case 'class="highlight">':
+                    output += ''; 
+					break;
+                    case '</span>':
+                	output += '';
+					break;
+					default:
+				    output += word + ' ';
+					break;
+					}
+		
+			
+    });
+
+    
+    } else  { 
+     $.each(words, function(idx, word) {
+     output += word + ' '; 
+     });
+     }
+ 
+    $('.searchable').html(output);
+ 
+}
+</script>
+
+
+
+
+
+
+   
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <!-- <a class="navbar-brand" href="#">Drug Abuse</a> -->
+		<img src="img/drugabuse.jpg" width="100" height="35" alt="logo"/>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+		  	<br>
+  	       <form id="formID" name="search">
+			<!-- keyword: <input type="text" name="searchkey"/> -->
+			<!-- <input type="text" name="searchkey"/> -->
+			<input type="text" id="myInput" name="searchkey" onkeyup="tableFilter()" placeholder="Search for content.." title="Type in a name"> 
+		    <!--<input type="text" id="myInput" name="searchkey" onkeyup="tableFilter2()" placeholder="Search for content.." title="Type in a name"> -->
+		   </form>
+  	       <button id="btnSearch" class="button button1">
+    	   <!-- search -->
+		   <img src="img/search2.png" id="searchimg">
+  	       </button>
+           <br>
+		
+		<div id="userinfo" style="color:white;text-align:center"> </div>
+		
+		
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <!--<a class="nav-link" href="#">Home  -->
+			   <a class="nav-link" href="/index">Home
+               <!-- <span class="sr-only">(current)</span> -->
+              </a>
+            </li>
+			
+			<div id="userinfo"></div>
+			
+			<li class="nav-item">
+              <a class="nav-link" href="/aboutpage">About</a>
+            </li>
+            <li class="nav-item">
+			  <a class="nav-link" href="/loginpage" id="nav_login">Login</a>
+			  <a class="nav-link" href="/index" id="nav_logout" style="display: none;">Logout</a>
+            </li>
+            <li class="nav-item">
+              <!-- <a class="nav-link" href="health.html">Health Information</a> -->
+			  <a class="nav-link" href="/healthpage">Health Information</a>
+            </li>
+			<li class="nav-item active">
+              <a class="nav-link" href="#">Favourite List</a>
+            </li>
+			<li class="nav-item">
+              <!-- <a class="nav-link" href="contact.html">Contact Us</a> -->
+			  <a class="nav-link" href="/contactpage">Contact Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/signuppage">Register</a>
+            </li> 
+			<li id="temperature" style="color:white;text-align:right"> </li>
+			</ul>
+        </div>
+      </div>
+    </nav>
+
+
+	<!--  <header class="masthead" > -->
+      <div><p>Personal Favourite List</p></div>
+    <!-- </header> -->
+	<br> <br>  <br>
+
+	<!-- 
+<table id="myTable">  
+<tr>	
+	<td>  -->
+	
+<div class = "searchable">	<!-- Set Scope for searching -->
+  	
+	<section class="p-0" id="portfolio">
+	<div class="container-fluid p-0">
+        <div class="row no-gutters popup-gallery">
+		   
+          <div class="col-lg-4 col-sm-6">
+            <!-- <a class="portfolio-box" href="img/portfolio/fullsize/favour1.jpg"> -->
+              <div class="container">    
+			  <img class="img-fluid" src="img/portfolio/thumbnails/favour1.jpg" alt="" style="width:500px;height:300px;">
+			  <div class="text-block">
+              <h6>Study Shows Hospitalizations Among Teens</h6>
+              <p><a class="portfolio-box" href="https://www.newportacademy.com/resources/substance-abuse/teen-opioid-dependence/">...learn more</a></p>
+              </div>
+			  </div>   
+              <!--<div class="portfolio-box-caption">
+                <div class="portfolio-box-caption-content">
+                <!--  <div class="project-category text-faded" id="fav1cat">
+                    Category 1
+                  </div> -->
+                  <div class="project-name">
+                    <div id="fav1text">Opioid Poisonings Increase</div>
+					<button id="fav1no"  class="rmvbtn" style="display:none">Remove</button>
+					<button id="fav1"  class="addbtn" style="display:inline-block">Add to my favorite</button><br>
+				  </div>
+			<!-- 	  </div>
+              </div>
+            </a> -->
+          </div>
+		   
+		  <div id="space1">
+		   &nbsp;
+		  </div>
+		  <div class="col-lg-4 col-sm-6">
+            <!-- <a class="portfolio-box" href="img/portfolio/fullsize/favour2.jpg"> -->
+              <div class="container">
+			  <img class="img-fluid" src="img/portfolio/thumbnails/favour2.jpg" alt="" style="width:500px;height:300px;">
+			  <div class="text-block">
+              <h6>To provide addict therapy, it should</h6>
+              <p><a class="portfolio-box" href="http://addicthelptherapy.netlify.com/alcohol-abuse-websites">...learn more</a></p>
+              </div>
+			  </div>
+              <!--  <div class="portfolio-box-caption">
+                <div class="portfolio-box-caption-content">
+                <!--   <div class="project-category text-faded" id="fav2cat">
+                    Category 2
+                  </div> -->
+                  <div class="project-name">
+                    <div id="fav2text">Addict Help Therapy </div>
+                     <button id="fav2no"  class="rmvbtn" style="display:none">Remove</button>
+					 <button id="fav2"  class="addbtn" style="display:inline-block">Add to my favorite</button><br>
+                  </div>
+               <!--  </div>
+              </div> 
+            </a> -->
+          </div>
+		  <div id="space2">
+		   &nbsp;
+		  </div>
+          <div class="col-lg-4 col-sm-6">
+            <!-- <a class="portfolio-box" href="img/portfolio/fullsize/favour3.jpg"> -->
+              <div class="container">
+			  <img class="img-fluid" src="img/portfolio/thumbnails/favour3.jpg" alt="" style="width:500px;height:300px;">
+			  <div class="text-block">
+              <h6>Drug prevention programs can offer</h6>
+              <p><a class="portfolio-box" href="https://drugfreegeneration.org/what-we-do/community-programs-and-initiatives.html">...learn more</a></p>
+              </div>
+			  </div> 
+              <!--  <div class="portfolio-box-caption">
+                <div class="portfolio-box-caption-content">
+                <!--  <div class="project-category text-faded" id="fav3cat">
+                    Category 3
+                  </div> -->
+                  <div class="project-name">
+                    <div id="fav3text">Drug prevention programs</div>
+                     <button id="fav3no"  class="rmvbtn" style="display:none">Remove</button>
+					 <button id="fav3"  class="addbtn" style="display:inline-block">Add to my favorite</button><br>
+                  </div>
+                <!-- </div>
+              </div> -->
+            </a>
+          </div>
+          <div id="space3">
+		   &nbsp;
+		  </div>
+		  <div class="col-lg-4 col-sm-6">
+            <!-- <a class="portfolio-box" href="img/portfolio/fullsize/favour4.jpg"> -->
+			  <div class="container">
+              <img class="img-fluid" src="img/portfolio/thumbnails/favour4.jpg" alt="" style="width:500px;height:300px;">
+			  <div class="text-block">
+              <h6>We can live in a drug-free world</h6>
+              <p><a class="portfolio-box" href="https://www.drugfreeworld.org/drugfacts/the-truth-about-drugs.html">...learn more</a></p>
+              </div>
+			  </div> 
+              <!-- <div class="portfolio-box-caption">  -->
+                <!--<div class="portfolio-box-caption-content"> -->
+                <!--  <div class="project-category text-faded" id="fav4cat">
+                    Category 4
+                  </div> -->
+                  <div class="project-name">
+                    <div id="fav4text">Drug-Free World</div>
+                     <button id="fav4no"  class="rmvbtn" style="display:none">Remove</button>
+					 <button id="fav4"  class="addbtn" style="display:inline-block">Add to my favorite</button><br>
+				  </div>
+                <!-- </div> -->
+              <!-- </div> -->
+            <!-- </a> -->
+          </div>
+		   <div id="space4">
+		   &nbsp;
+		  </div>
+          <div class="col-lg-4 col-sm-6">
+            <!-- <a class="portfolio-box" href="img/portfolio/fullsize/favour5.jpg"> -->
+			<div class="container">
+              <img class="img-fluid" src="img/portfolio/thumbnails/favour5.jpg" alt="" style="width:500px;height:300px;">
+              <div class="text-block">
+              <h6>When a mother addicts to drug, she</h6>
+              <p><a class="portfolio-box" href="https://tsnnews.com/mother-drug-addict-donna-m/">...learn more</a></p>
+              </div>
+			</div>  
+			  <!-- <div class="portfolio-box-caption">  -->
+                <!-- <div class="portfolio-box-caption-content"> -->
+                <!--  <div class="project-category text-faded" id="fav5cat">
+                    Category 5
+                  </div>  -->
+                  <div class="project-name">
+                    <div id="fav5text">Mother of a Drug Addict</div>
+                     <button id="fav5no"  class="rmvbtn" style="display:none">Remove</button>
+					 <button id="fav5"  class="addbtn" style="display:inline-block">Add to my favorite</button><br>
+			      </div>
+                <!-- </div> -->
+              <!-- </div> -->
+            <!-- </a> -->
+          </div>
+		  <div id="space5">
+		   &nbsp;
+		  </div>
+		  
+	      <div class="col-lg-4 col-sm-6">
+            <!-- <a class="portfolio-box" href="img/portfolio/fullsize/favour6.jpg"> -->
+			<div class="container">
+              <img class="img-fluid" src="img/portfolio/thumbnails/favour6.jpg" alt="" style="width:500px;height:300px;">
+              <div class="text-block">
+              <h6>To educate girls on the danger of drug-abuse </h6>
+              <p><a class="portfolio-box" href="https://esircworldwide.com/drug-abuse-education-girls-and-drug-abuse-drug-abuse-resources/">...learn more</a></p>
+              </div>
+			 </div>       
+      			<!-- <div class="portfolio-box-caption"> -->
+			    <!-- <div class="portfolio-box-caption-content">
+				
+                <!--  <div class="project-category text-faded" id="fav6cat">
+                    Category 6
+                  </div>  -->
+                  <div class="project-name">
+                    <div id="fav6text">Drug-abuse Education on Girls</div>
+					 <button id="fav6no"  class="rmvbtn" style="display:none">Remove</button>
+					 <button id="fav6"  class="addbtn" style="display:inline-block">Add to my favorite</button><br>
+					 <!-- <button id="fav6"  class="button" style="display:inline-block">Add to my favorite</button><br> -->
+				  </div>
+                  <!-- </div> -->
+             <!-- </div> -->
+            <!-- </a> -->
+          </div>
+		  
+		  <div id="space6">
+		   &nbsp;
+		  </div>
+	</section>
+</div>
+
+<!--	</td> 
+</tr>	
+</table>	-->
+	
+<!--	<div id="readfav">
+    	Read favorite list 
+		<button id="read1" class="readbtn"> Read favorite list </button> 
+  	</div> 
+	-->
+	
+	<!--  <div id="results"></div> -->
+    <table id="results"></table> 
+ 
+    <table id="results2"></table>
+	
+	<!--
+    <table id="mytable">
+      <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+		   <td class = "removelink"></td>
+          </tr>
+          <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+		   <td class = "tablink"></td>
+           <td class = "removelink"></td>
+          </tr>
+		  <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+		   <td class = "removelink"></td>
+          </tr>
+          <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+		   <td class = "tablink"></td>
+           <td class = "removelink"></td>
+          </tr>
+	</table>  -->
+	
+  </div>
+</div>	
+	
+	<!--  
+  <center>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+ //Post Page - Responsive 
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-5104998679826243"
+     data-ad-slot="3470684978"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center> -->
+
+
+
+  <!-- ================================================
+    Scripts
+    ================================================ -->
+
+  <!-- jQuery Library -->
+ <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <!--materialize js-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+
+<!--  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-27820211-3', 'auto');
+  ga('send', 'pageview');
+
+</script> -->
+
+<script src="//load.sumome.com/" data-sumo-site-id="1cf2c3d548b156a57050bff06ee37284c67d0884b086bebd8e957ca1c34e99a1" async="async"></script>
+
+
+	
+	
+     
+	
+	<!-- Footer Information-->
+   <br>
+   <div class = "style3">
+   </div>
+	
+	<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+		<br>
+      <div class="container">
+	    <b>305CDE Assignment 2018. All Rights Reserved. </b>
+        <a href="/hklawprivacy">Privacy Policy   </a> 
+        <a href="/protectdata">Terms of Service   </a> 
+       <p class="m-0 text-center text-white">Copyright &copy; 305CDE 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Drug Abuse Information - Search</title>
+     
+    <!-- <link href="/css/web.css" type="text/css " rel="stylesheet"/> -->
+    
+    <!-- <link href="/css/style.css" type="text/css " rel="stylesheet"/> -->
+		<!-- <link href="/css/*.css" type="text/css " rel="stylesheet"/> -->
+    <link href="css/style.css" type="text/css " rel="stylesheet"/> 
+    
+        
+    <!-- Custom styles for this template -->
+    <!-- <link href="/css/half-slider.css" rel="stylesheet"> -->
+    <link href="css/cleanblog.min.css" rel="stylesheet">
+	<link href="css/style.css" type="text/css " rel="stylesheet"/>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<!-- Bootstrap core CSS -->
+	<!-- <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    
+</head>
+
+<style>
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+} 
+</style>
+<style> 
+.highlight{
+    font-weight:bold;
+    color:green;
+    background:yellow;
+}
+</style> 
+
+<script>
+$.noConflict();
+jQuery( document ).ready(function( $ ) {
+
+    //get login information
+    var userdata = localStorage.getItem("mylogin"); 
+
+
+    // API call for temperature
+   var temp = localStorage.getItem("curTemp");
+   document.getElementById("temperature").innerHTML = temp + "&deg;C";
+   
+   ///alert("user: " + userdata);
+   ///alert("run: " + sessionStorage.getItem("hasCodeRunBefore"));   
+  
+
+   
+   //get login info
+   var linkedinfo =localStorage.getItem("loginInfo");  
+
+   loginUpdate(userdata, linkedinfo);
+
+   var sKey=localStorage.getItem("searchKey");
+   var sResult=localStorage.getItem("searchResult");
+   
+   ///alert("sKey: " + sKey);
+   ///alert("sResult: " + sResult);
+   
+   //Add the final result into the table
+   if(sKey != null) { 
+   ///$("#myInput").append(sKey);
+   getResult(sKey,sResult);
+   document.getElementById('myInput').value = sKey;
+   }
+   
+// handle button clicks on search function
+  $("#btnSearch").click(function()
+	{
+		var tempSearch;
+		tempSearch = document.forms["search"]["searchkey"].value;
+		if(tempSearch == "")
+			{
+				alert("Please input your keyword.");
+			}
+		else
+			{
+				///var keyword=$("#searchkey").val();
+				var keyword= tempSearch; 
+				var searchdata="searchvalue="+keyword;
+				
+				///alert(searchdata);  ///
+								        
+			    		
+				$.ajax(
+				{
+					//url: "http://port-9000.305server-collkc471330.codeanyapp.com/Search",          //codeanywhere
+					url: "http://127.0.0.1:8080/Search",                                             //local server
+					type: 'POST',
+					data: searchdata,
+					success: function(resultReturn)
+					{ 
+						
+						///alert("search key=" + keyword);
+                        ///alert("search success=" + resultReturn);
+						//var linkeditsearch;
+				  
+				        localStorage.setItem("searchKey",keyword);
+                        localStorage.setItem("searchResult",resultReturn);
+						
+				        getResult(keyword,resultReturn);
+				        ///$("#myInput").append(keyword); //Add keyword to search table
+                        
+						
+				  },error: function (xhr, textStatus, errorThrown) 
+					
+					{
+						alert("search failed");
+						console.log(textStatus);
+                        alert(xhr.responseText);
+      		        }  
+				});
+			}
+        });   
+
+	
+
+// handle logout button clicks
+       $("#nav_logout").click(function()
+	       {    
+	            var myuser2="user="+userdata; 
+				///alert("callnow "+ myuser2);
+				
+				$.ajax(
+				{
+					//url: "http://port-9000.305server-collkc471330.codeanyapp.com/Logout",   //codeanywhere
+					url: "http://127.0.0.1:8080/Logout",                                      //local server
+					type: 'POST',
+				    data: myuser2,
+					async: false,	
+					success: function(resultReturn)
+					{ 
+			          
+                     ///alert(resultReturn);
+                     //if(resultReturn=="1"){
+                     //window.location.href="/index";
+                     	 
+					  
+					 localStorage.setItem("mylogin","");
+					 userdata= localStorage.getItem("mylogin");
+					 localStorage.setItem("loginInfo","");
+					 sessionStorage.setItem("hasCodeRunBefore", "");  //reset login status
+					 
+					 ///alert("logout success");
+					 ///alert("logout user:" + userdata);
+					 //loginUpdate(userdata);
+					 loginUpdate("","");
+					 
+                     //}else{
+                     //alert("logout error");
+                     //return;
+                     // }
+                        
+				  	},error: function (xhr, textStatus, errorThrown) 
+					{
+						///alert("login failed");
+						alert("logout failed");
+						console.log(textStatus);
+                        alert(xhr.responseText);
+      		        }
+				});
+			
+      });
+
+	  
+	  
+//Update menu bar on login status	
+function getResult(searchKey,searchResult) {
+	    var linkeditresult;
+	    
+		///alert("Get search key:" + searchKey);  ///
+		///alert("Get search result:" + searchResult);  ///
+        ///alert("Search length" + searchResult.length);  ///       
+        var _stringObj = JSON.stringify(searchResult);
+		var stringObj = JSON.parse(searchResult);
+		
+		  ///  alert("protocol: " + window.location.protocol);
+         // alert("href: " + window.location.href );   
+          ///  alert("host: " + window.location.host);
+        // alert("host string: " + window.location.href.toString().split(window.location.host)[1] );
+        // alert("document.baseURI: " + document.baseURI);
+        // alert("document.URL: " + document.URL );
+     
+        $("#results").append(""); //reset result to table
+		
+		
+		
+		///alert("Result length" + stringObj.length);  ///
+		for(i = 0; i < stringObj.length; i++)
+        {
+			///alert("i="+i); 
+			///alert(searchResult[i].header);
+			///alert("link="+stringObj[i].link); 
+			///alert("text="+stringObj[i].keytext); 
+			var num = i + 1;
+			var linkaddress = window.location.protocol + "://" + window.location.host + stringObj[i].link;				 
+		//linkeditresult =  '<tr><td>' + num + ' </td><br><td>' + searchResult[i].header + ' </td>' +'<br>'
+		///linkeditresult =  '<tr><td>' + num + ' </td><br>';
+		///linkeditresult += '<td>' + stringObj[i].link + ' </td><br><td>' +  stringObj[i].keytext + ' </td></tr>';
+		    ///alert("Link Address="+linkaddress);
+		
+		linkeditresult  = '<p>' + num + '.  '+ '</p>';
+		linkeditresult += '<p>'+'<a href="'+ stringObj[i].link +'">' + linkaddress +'</a>' +'</p>'
+        //linkeditresult += '<p>' + stringObj[i].keytext + '</p>';
+		linkeditresult += '<p>' + tableFilter2(searchKey, stringObj[i].keytext) + '</p>';
+		linkeditresult += '<hr>'
+		
+		$("#results").append(linkeditresult); //Add result to table
+		
+		localStorage.setItem("searchKey","");  //Reset search key
+        localStorage.setItem("searchResult",""); //Reset search Result
+        }
+}
+		
+});	
+</script>
+<script>
+//Update menu bar on login status	
+function loginUpdate(logindata, information) {	
+		
+			//alert("LOGIN:" + logindata);
+
+            if (logindata != ""){
+				document.getElementById("nav_login").style.display = "none";
+				//document.getElementById("nav_signup").style.display = "none";
+				document.getElementById("nav_logout").style.display = "inline-block";
+				//document.getElementById("nav_editor").style.display = "inline-block";
+				document.getElementById("userinfo").innerHTML = information;
+			}
+			else{
+				document.getElementById("nav_logout").style.display = "none";
+				//document.getElementById("nav_editor").style.display = "none";
+				document.getElementById("nav_login").style.display = "inline-block";
+				//document.getElementById("nav_signup").style.display = "inline-block";
+				document.getElementById("userinfo").innerHTML = "";
+				}
+	
+}  
+
+//Filter search keyword on current page's content    
+function tableFilter() {
+
+		var input, filter, table, tr, td, i;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("myTable");
+		tr = table.getElementsByTagName("tr");
+		///alert("filter=" + filter);
+		///alert("tr length=" + tr.length);
+		//td =""; //reset table row
+		for (i = 0; i < tr.length; i++) {
+		    			
+			td = tr[i].getElementsByTagName("td")[0];
+			///alert("i="+i);
+			///alert(td);
+			///alert(td.innerHTML.toUpperCase().indexOf(filter));	
+			if (td) {
+				if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+				    var innerHTML = td.innerHTML;
+					var index = td.innerHTML.toUpperCase().indexOf(filter);
+					///alert("innerHTML=" + innerHTML);
+					///alert("index=" + index);
+					innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+filter.length) + "</span>" + innerHTML.substring(index + filter.length);
+	                tr[i].innerHTML = innerHTML;
+					//tr[i].style.display = "";
+				} else {
+					//tr[i].style.display = "none";
+				}
+			}       
+		}
+	}
+
+
+///function highlight(text) {
+///  var inputText = document.getElementById("inputText");
+///  var innerHTML = inputText.innerHTML;
+///  var index = innerHTML.indexOf(text);
+///  if (index >= 0) { 
+///   innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+///   inputText.innerHTML = innerHTML;
+///  }
+///}	
+
+//Highlight whole keyword on current page's content	
+function tableFilter2(filterKey, filterResult){ //highlight keyword in the search result
+
+//var term = $('#myInput').val().trim();
+///alert("compare=" +term);
+///var source = $('.searchable').text();
+///var source = $("#results").text();
+    var term = filterKey;
+	var source = filterResult;
+    var words = source.split(' ');
+    var output = '';
+
+	///alert("compare=" +term);
+	///alert("source=" +source);
+	///alert("term length=" +term.length);
+	
+    if (term.length > 0) {
+    
+    $.each(words, function(idx, word) {
+        //if (term === word.toLowerCase()) {
+		   ///var compword = "/^" + term +".*$/";  
+		   //alert("compare=" +compword);
+		   //alert("word=" +word);
+		   		   	   
+		    /// if (term==word){
+            ///alert("higlight=" +word);           
+		    ///output += '<span class="highlight">' + word + '</span> ';
+            ///} else {
+            /// output += word + ' ';   
+            ///}
+			
+			switch (word) {
+                   case term:
+					output += ' <span class="highlight"> ' + word + '</span> ';
+					break;
+                    case '<span':
+					output += '';
+					break;
+                    case 'class="highlight">':
+                    output += ''; 
+					break;
+                    case '</span>':
+                	output += '';
+					break;
+					default:
+				    output += word + ' ';
+					break;
+			}
+			
+			
+    });
+
+    
+    } else  { 
+     $.each(words, function(idx, word) {
+     output += word + ' '; 
+     });
+     }
+ 
+    ///$('.searchable').html(output);
+    //$('#results').html(output);
+	
+	return output;
+	
+}
+</script>
+
+
+
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <!-- <a class="navbar-brand" href="#">Drug Abuse</a> -->
+		<img src="img/drugabuse.jpg" width="100" height="35" alt="logo"/>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+		
+		<form id="formID1" name="search">
+			 <!--keyword: <input type="text" name="searchkey"/> -->
+			 <!-- <input type="text" name="searchkey"/> -->
+			 <input type="text" id="myInput" name="searchkey" onkeyup="" placeholder="Search for content.." title="Type in a name">
+			 <!-- <input type="text" id="myInput" name="searchkey" onkeyup="tableFilter()" placeholder="Search for content.." title="Type in a name"> -->
+			 <!-- <input type="text" id="myInput" name="searchkey" onkeyup="tableFilter2()" placeholder="Search for content.." title="Type in a name"> -->
+		</form>
+		
+		<button id="btnSearch" class="button button1">
+    	   <!-- search -->
+		   <img src="./img/search2.png" id="searchimg">
+  	       </button>
+           <br>
+		
+		<div id="userinfo" style="color:white;text-align:center"> </div>	
+		   
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/index">Home
+               <!-- <span class="sr-only">(current)</span> -->
+              </a>
+            </li>
+            <li class="nav-item">
+              <!-- <a class="nav-link" href="info.html">About</a> -->
+			   <a class="nav-link" href="/aboutpage">About</a>
+            </li>
+            <li class="nav-item">
+			  <a class="nav-link" href="/loginpage" id="nav_login">Login</a>
+			  <a class="nav-link" href="/index" id="nav_logout" style="display: none;">Logout</a>
+            </li>
+            <li class="nav-item">
+              <!-- <a class="nav-link" href="health.html">Health Information</a> -->
+			  <a class="nav-link" href="/healthpage">Health Information</a>
+            </li>
+			<li class="nav-item">
+              <a class="nav-link" href="/favlistpage">Favourite List</a>
+            </li>
+			<li class="nav-item">
+              <!-- <a class="nav-link" href="contact.html">Contact Us</a> -->
+ 			  <a class="nav-link" href="/contactpage">Contact Us</a> 
+            </li>
+			<li class="nav-item">
+              <a class="nav-link" href="/signuppage">Register</a>
+            </li>
+			
+			<li id="temperature" style="color:white;text-align:right"> </li>
+		  </ul>
+        </div>
+      </div>
+    </nav>
+
+	<br> <br> <br>
+	    <!-- Page Content -->
+    <section class="py-5">
+    <!--   <div class="container"> -->
+       <!-- <table id="results"><a class="nav-link" href="#">Test links</a></table> -->
+	 
+	 <h2 style="text-align:center"> Search Result </h2> 
+	 <!-- <table id="results">
+	  <tr>
+          <td class = "tabNum"></td> <br>
+		  <td class = "tabTitle"></td> <br> 
+          <td class = "tabLink"></td>  <br> 
+		  <td class = "tabText"></td>  
+      </tr>
+	  
+	 </table> -->
+	<!--   </div> -->
+
+<table id="myTable">  <!-- Set Scope for searching -->
+<tr>	
+	<td>	
+	
+    <div id="results">
+     <!-- 
+	 <p>1.</p>
+     <p><a href="">Change the default CSS settings to see the effect.<a></p>
+     <hr>
+     <p>2.</p>
+     <p><a href="">Change the default CSS settings to see the effect 2.<a></p>
+	 --> 
+	</div> 
+	</section> 
+
+   </td> 
+</tr>	
+</table>	
+	
+	
+	<!--  
+  <center>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+ //Post Page - Responsive 
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-5104998679826243"
+     data-ad-slot="3470684978"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center> -->
+
+
+
+  <!-- ================================================
+    Scripts
+    ================================================ -->
+
+  <!-- jQuery Library -->
+ <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <!--materialize js-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+
+<!--  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-27820211-3', 'auto');
+  ga('send', 'pageview');
+
+</script> -->
+
+<script src="//load.sumome.com/" data-sumo-site-id="1cf2c3d548b156a57050bff06ee37284c67d0884b086bebd8e957ca1c34e99a1" async="async"></script>
+
+
+	
+	
+	
+	
+	
+	
+	
+     <!-- Footer -->
+    <br>
+   <div class = "style3">
+   </div>
+	
+	<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+   
+    <footer class="py-5 bg-dark">
+		<br>
+      <div class="container">
+	    <b>305CDE Assignment 2018. All Rights Reserved. </b>
+        <a href="/hklawprivacy">Privacy Policy   </a>
+        <a href="/protectdata">Terms of Service   </a>
+        <p class="m-0 text-center text-white">Copyright &copy; 305CDE 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+				
+					
+</body>
+
+</html>

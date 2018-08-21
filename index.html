@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>305 CDE Assignment - Drug Abuse Information</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  
+  
+    <!-- <link href="/css/web.css" type="text/css " rel="stylesheet"/> -->
+    
+    <!-- <link href="/css/style.css" type="text/css " rel="stylesheet"/> -->
+		<!-- <link href="/css/*.css" type="text/css " rel="stylesheet"/> -->
+    <link href="css/style.css" type="text/css " rel="stylesheet"/> 
+    
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    
+    <!-- Custom styles for this template -->
+    <!-- <link href="/css/half-slider.css" rel="stylesheet"> -->
+    <link href="css/halfslider.css" type="text/css" rel="stylesheet">
+<!--    	
+  </head>
+  
+  <style>
+   .highlight {
+  background-color: yellow;
+  }
+  </style> -->
+<style type="text/css" media="screen">
+.highlight{
+    font-weight:bold;
+    color:green;
+    background:yellow;
+}
+
+.container {
+    position: relative;
+    font-family: Arial;
+}
+
+.text-block {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: black;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+</style>
+  
+  <!-- <style> 
+       <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+          </tr>
+          <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+          </tr>
+   </style> -->
+  
+<script>
+$.noConflict();
+jQuery( document ).ready(function( $ ) {
+
+//$(document).ready(function()
+//{   
+    
+	
+	///var loginFlag = localStorage.getItem("mylogin");
+	
+	///if(loginFlag==""){
+    /// alert("pls login");
+	 //window.location.href="jexample.html";
+	/// return; 
+   ///} else {
+   ///  alert("login success");
+   /// return; 
+   ///}
+	
+   
+
+	//function handleButtonResponse(data)
+    //{
+    //  alert(data);
+      // parse the json string
+    //  var jsonObject = JSON.parse(data);
+    //  $('#reponseID').append( jsonObject.message );
+    //}
+  
+  //retrieve user information
+  //localStorage.setItem("mylogin",user);
+  ///localStorage.setItem("mylogin","");
+  ///localStorage.setItem("loginInfo","");
+    
+  //get login name
+  ///var userdata = localStorage.setItem("mylogin",user);
+  var userdata = localStorage.getItem("mylogin");
+  
+  //get login info
+  var linkedinfo =localStorage.getItem("loginInfo");  
+  ///alert("user: " + userdata);
+  ///alert("user info: " + linkedinfo);
+  ///alert("login info: " + sessionStorage.getItem("hasCodeRunBefore"));
+  
+  
+  
+  
+  //Check user login in and change the menu layout
+   if (sessionStorage.getItem("hasCodeRunBefore") === null || sessionStorage.getItem("hasCodeRunBefore") === "") {
+           checkLoginStatus(userdata); 			
+        sessionStorage.setItem("hasCodeRunBefore", true);
+   } else { 
+   // Index page has been loaded, only update the menu layout   
+     loginUpdate(userdata, linkedinfo);  
+   }
+   
+  // API call for other weather information
+///	var sWeatherAPI1 = "http://api.apixu.com/v1/current.json?key=dc41684deb824f8084f74040181508&q=HK";
+
+    //With API Key
+///        $.ajax(
+///		{
+///			url: sWeatherAPI1,
+///			dataType : "json",
+///		    type: 'GET',
+///		    success: function (parsed_json)
+///			{
+///			   counter1 = parsed_json['location']['country'];   
+///			   alert("Country:"+ counter1);
+///			   localStorage.setItem("curCountry", counter1);	
+
+///			   counter2 = parsed_json['current']['temp_c'];   
+///			   alert("Temp C:"+ counter2);
+///			   localStorage.setItem("curTemp", counter2);		
+
+///			   counter3 = parsed_json['current']['temp_f']; 			   
+///			   alert("Temp F:"+ counter3);
+///			   localStorage.setItem("curTempF", counter3);	
+
+///			   counter4 = parsed_json['current']['condition']['text'];   
+///			   alert("Condition:"+ counter4);
+///			   localStorage.setItem("curCondition", counter4);
+
+///			   counter5 = parsed_json['current']['condition']['icon'];   
+///			   alert("ICON:"+ counter5);
+///			   localStorage.setItem("curICON", counter5);	
+
+
+///			   counter6 = parsed_json['current']['humidity'];   
+///			   alert("humidity:"+ counter6);
+///            localStorage.setItem("curHumidity", counter6);
+
+			   
+///			},
+///			error: function (xhr, textStatus, errorThrown) 
+///				{				
+///					alert("error in API");  //
+///					alert(textStatus);        //
+///					alert(xhr.responseText);
+///      		    }
+///		});
+	
+	
+	
+	// API call for temperature
+    $.ajax({
+	url : "http://api.wunderground.com/api/b20b6bbf1fd069a8/geolookup/conditions/q/HK/HongKong.json",
+	dataType : "jsonp",
+	success : function(parsed_json) {
+	var temp_c = parsed_json['current_observation']['temp_c'];
+	localStorage.setItem("curTemp", temp_c);
+	///document.getElementById("temperature").innerHTML = temp_c + "&deg;C";
+	}
+	});
+	
+	
+	
+	document.getElementById("temperature").innerHTML = localStorage.getItem("curTemp") + "&deg;C";
+	
+    // has login, get user info
+	//alert("user: " + userdata);
+	//if (userdata !="") {
+	//getuserinfo(userdata); 
+	//return;
+	//}
+  
+   ///alert("user: " + userdata);
+   ///alert("run: " + sessionStorage.getItem("hasCodeRunBefore"));   
+
+    //alert("protocol: " + window.location.protocol);
+    //alert("href: " + window.location.href );   
+	//alert("host: " + window.location.host);
+    //alert("host string: " + window.location.href.toString().split(window.location.host)[1] );
+	//alert("document.baseURI: " + document.baseURI);
+    //alert("document.URL: " + document.URL );
+
+//	var dataFromServer;  //declare the variable first
+    
+  
+  // handle button clicks on search function
+  $("#btnSearch").click(function()
+	{
+		//alert("callnow");
+		
+		//$("#results2").html('');
+        //dataset = [{'username':'user 1','useremail':'mail 1','id':'1'},{'username':'user 2','useremail':'mail 2','id':'2'},{'username':'user 3','useremail':'mail 3','id':'3'}];
+        //$("#results2").append('<th>Full Names</th><th>Email</th><th>Edit</th><th>Delete</th>');
+        //for (var i = 0, item = null; i < dataset.length; i++) {
+        //item = dataset[i];
+        //var linkeditdelete =  '<tr><td>' + item['username'] + ' </td><td>' + item['useremail'] + ' </td><td>' +      '<a href="#" onclick="loadRecord(' + i + ');">edit</a></td><td><a href="#" onclick="deleteRecord(' + item['id'] + ');">delete</a></td></tr>';
+        //$("#results2").append(linkeditdelete);
+        //}
+		
+		
+		
+		var tempSearch, keyword, searchdata;
+		
+		tempSearch = document.forms["search"]["searchkey"].value;
+		if(tempSearch == "")
+			{
+				alert("Please input your keyword.");
+			}
+		else
+			{
+				///var keyword=$("#searchkey").val();
+				keyword= tempSearch; 
+				searchdata="searchvalue="+keyword;
+				
+				///alert(searchdata);  ///
+				
+				//var go=$("#searchkey").val();
+								
+                //var username = "test@1";
+				//var password = "32423";
+				
+				//var mydata="uame="+username+"&pwd="+password;
+        
+			    $("#results").html('');
+		
+				$.ajax(
+				{
+					//url: "http://port-9000.305server-collkc471330.codeanyapp.com/Search",          //codeanywhere
+					url: "http://127.0.0.1:8080/Search",                                             //local server
+					type: 'POST',
+					data: searchdata,
+					success: function(resultReturn)
+					{ 
+						//alert("search success");
+                    ///alert("search success=" + resultReturn);
+						//alert(JSON.stringify(resultReturn));
+			      ///var _stringObj = JSON.stringify(resultReturn);
+			      ///var stringObj = JSON.parse(resultReturn);
+			      ///for(i = 0; i < stringObj.length; i++)
+				  ///var linkeditsearch;
+				  
+				  localStorage.setItem("searchKey",keyword);
+                  localStorage.setItem("searchResult",resultReturn);
+				  ///alert("search key=" + localStorage.getItem("searchKey"));
+				  ///alert("search result=" + localStorage.getItem("searchResult"));
+				  
+				  window.location.href ="/Search"; //Go to Search Result Page
+				  
+				  ////$("#results").append('<th>Item No.</th><th>Item Description</th>');
+				  
+				  ////alert(stringObj.length);  /// 
+				  ////for(i = 0; i <= stringObj.length; i++)
+                  //// {
+				       //// alert(i); ///
+						/// alert(stringObj[i].texttitle); 
+						/// alert(stringObj[i].command); 
+					   //// alert(stringObj[i].text); ///
+					  ////  var num = i + 1;
+						
+						//linkeditsearch =
+					    //        +'<tr>'
+                        //        +'<td>' + num + ' </td> '  
+                        //        +'<td>' + stringObj[i].text + ' </td>'                                   
+                        //        +'</tr>'
+						//		+'<br>'
+								
+					  ////  linkeditsearch =  '<tr><td>' + num + ' </td><td>' + stringObj[i].text + ' </td></tr>';
+						
+					  ////  $("#results").append(linkeditsearch);
+						
+						
+					    ///document.getElementsByClassName("tabnum")[i].innerHTML = num;
+						///document.getElementsByClassName("tabname")[i].innerHTML = stringObj[i].text;
+					    /// document.getElementsByClassName("tabname")[i].innerHTML = stringObj[i].texttitle;
+				        /// document.getElementsByClassName("tablink")[i].innerHTML = stringObj[i].command;
+				     ////}
+					 					 
+					},error: function (xhr, textStatus, errorThrown) 
+					{
+						alert("search failed");
+						console.log(textStatus);
+                        alert(xhr.responseText);
+      		        }  
+				});
+			}
+        });
+       
+	    //Change login/logut button 
+  		/// function getCookie(cname) {
+		///		var name = cname + "=";
+		///		var ca = document.cookie.split(';');
+		///		for(var i=0; i<ca.length; i++) {
+		///			var c = ca[i];
+		///			while (c.charAt(0)==' ') c = c.substring(1);
+		///			if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+		///							}
+		///		return "";
+		///}
+
+		///alert("Get cookie:" + getCookie("token"));		
+				
+				
+		///    if (getCookie("token")){
+		///		document.getElementById("nav_login").style.display = "none";
+				//document.getElementById("nav_signup").style.display = "none";
+		///		document.getElementById("nav_logout").style.display = "inline-block";
+				//document.getElementById("nav_editor").style.display = "inline-block";
+		///	}
+		///	else{
+		///		document.getElementById("nav_logout").style.display = "none";
+				//document.getElementById("nav_editor").style.display = "none";
+		///		document.getElementById("nav_login").style.display = "inline-block";
+				//document.getElementById("nav_signup").style.display = "inline-block";
+		///	}
+			
+		//localStorage.setItem("mylogin",user);
+	
+	
+// handle logout button clicks
+       $("#nav_logout").click(function()
+	       {    
+	            var myuser2="user="+userdata; 
+				alert("callnow "+ myuser2);
+				
+				$.ajax(
+				{
+					//url: "http://port-9000.305server-collkc471330.codeanyapp.com/Logout",   //codeanywhere
+					url: "http://127.0.0.1:8080/Logout",                                      //local server
+					type: 'POST',
+				    data: myuser2,
+					async: false,	
+					success: function(resultReturn)
+					{ 
+			          
+                     ///alert(resultReturn);
+                     //if(resultReturn=="1"){
+                     //window.location.href="/index";
+                     
+					 ///alert("logout success");
+					 ///alert("logout user:" + userdata);
+					 					 
+					 localStorage.setItem("mylogin","");
+					 userdata = localStorage.getItem("mylogin");
+					 localStorage.setItem("loginInfo","");
+					 linkedinfo = localStorage.getItem("loginInfo");
+					 sessionStorage.setItem("hasCodeRunBefore", "");  //reset login status
+					 
+					 loginUpdate("","");
+					 
+                     //}else{
+                     //alert("logout error");
+                     //return;
+                     // }
+                        
+				  	},error: function (xhr, textStatus, errorThrown) 
+					{
+						///alert("login failed");
+						alert("logout failed");
+						console.log(textStatus);
+                        alert(xhr.responseText);
+      		        }
+				});
+			
+      });
+	
+  
+  
+  
+	
+  
+  
+//});
+
+
+
+
+//Get user's login status; if login on other tags/browsers/machines, it displays on the menu layout
+	function checkLoginStatus(myname) {
+	    
+		///localStorage.setItem("searchKey","");
+        ///localStorage.setItem("searchResult","");
+	    ///localStorage.setItem("mylogin","");
+     
+    	/// localStorage.setItem("loginInfo","");
+		
+	    //var myname = localStorage.getItem("mylogin");  
+	    
+		if (myname !="") {
+		   var myuser="user="+myname;      
+		   ////alert(myuser);
+				
+            	$.ajax(
+				{
+					/*url: "http://port-9000.305server-idm4smb32469.codeanyapp.com/loginpage", */
+					url: "http://127.0.0.1:8080/Checklogin",
+					type: 'POST',
+					data: myuser,
+					success: function(resultReturn)
+					{ 
+						///alert("sucess:"+resultReturn);
+						
+                        var _stringObj = JSON.stringify(resultReturn);
+			            var stringObj = JSON.parse(resultReturn);
+						
+												
+					if (stringObj != "" ) {
+						if (stringObj[0].flag =="0") {
+						loginUpdate("","");
+						//window.location.href="/index";   ????
+						} else {
+						///linkedinfo =  'Hello,' + stringObj[0].description +'! ' + ' Last login:' + stringObj[0].lastlogin;
+						linkedinfo = 'Hello, ' + stringObj[0].description +'!';
+						//$("#userinfo").append(linkedinfo);
+						localStorage.setItem("loginInfo",linkedinfo);  
+						//document.getElementById("userinfo").innerHTML = linkedinfo;
+						loginUpdate(myname, linkedinfo);
+						};
+                    }else{
+					   alert("User does not exist");
+					   return;
+					}		
+					
+                    },error: function (xhr, textStatus, errorThrown) 
+					{
+						alert("error in read login info");  //
+						alert(textStatus);                  //
+                        alert(xhr.responseText);
+      		        }
+				});
+		}		
+    }
+
+
+
+
+
+});
+</script>
+<script>
+//Update menu bar on login status	
+function loginUpdate(logindata, information) {	
+		
+			//alert("LOGIN:" + logindata);
+
+            if (logindata != ""){
+				document.getElementById("nav_login").style.display = "none";
+				//document.getElementById("nav_signup").style.display = "none";
+				document.getElementById("nav_logout").style.display = "inline-block";
+				//document.getElementById("nav_editor").style.display = "inline-block";
+				document.getElementById("userinfo").innerHTML = information;
+			}
+			else {
+				document.getElementById("nav_logout").style.display = "none";
+				//document.getElementById("nav_editor").style.display = "none";
+				document.getElementById("nav_login").style.display = "inline-block";
+				//document.getElementById("nav_signup").style.display = "inline-block";
+				document.getElementById("userinfo").innerHTML = "";
+				}
+	
+}  
+
+//Filter search keyword on current page's content    
+function tableFilter() {
+
+		var input, filter, table, tr, td, i;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("myTable");
+		tr = table.getElementsByTagName("tr");
+		///alert("filter=" + filter);
+		///alert("tr length=" + tr.length);
+		td =""; //reset table row
+		for (i = 0; i < tr.length; i++) {
+		    			
+			td = tr[i].getElementsByTagName("td")[0];
+			///alert("i="+i);
+			///alert(td);
+			///alert(td.innerHTML.toUpperCase().indexOf(filter));	
+			if (td) {
+				if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+				    var innerHTML = td.innerHTML;
+					var index = td.innerHTML.toUpperCase().indexOf(filter);
+					///alert("innerHTML=" + innerHTML);
+					///alert("index=" + index);
+					innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+filter.length) + "</span>" + innerHTML.substring(index + filter.length);
+	                tr[i].innerHTML = innerHTML;
+					//tr[i].style.display = "";
+				} else {
+					//tr[i].style.display = "none";
+				}
+			}       
+		}
+	}
+
+
+///function highlight(text) {
+///  var inputText = document.getElementById("inputText");
+///  var innerHTML = inputText.innerHTML;
+///  var index = innerHTML.indexOf(text);
+///  if (index >= 0) { 
+///   innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+///   inputText.innerHTML = innerHTML;
+///  }
+///}	
+
+//Highlight whole keyword on current page's content	
+function tableFilter2(){
+
+var term = $('#myInput').val().trim();
+///alert("compare=" +term);
+//var source = $('.searchable').text();
+    var source = $('.searchable').html();
+    var words = source.split(' ');
+    var output = '';
+	
+///alert("source=" +source);
+	
+    if (term.length > 0) {
+    
+    $.each(words, function(idx, word) {
+        //if (term === word.toLowerCase()) {
+		   ///var compword = "/^" + term +".*$/";  
+		   //alert("compare=" +compword);
+		   //alert("word=" +word);
+		   		   	   
+		   ///if (term==word){
+            ///alert("higlight=" +word);           
+		   ///output += '<span class="highlight">' + word + '</span> ';
+           ///} else {
+           ///  output += word + ' ';   
+           ///}
+		   
+		   switch (word) {
+                   case term:
+					output += ' <span class="highlight"> ' + word + ' </span> ';
+					break;
+                    case '<span':
+					output += '';
+					break;
+                    case 'class="highlight">':
+                    output += ''; 
+					break;
+                    case '</span>':
+                	output += '';
+					break;
+					default:
+				    output += word + ' ';
+					break;
+					}
+		
+    });
+
+    
+    } else  { 
+     $.each(words, function(idx, word) {
+     output += word + ' '; 
+     });
+     }
+ 
+    ///alert("output=" +output);
+    $('.searchable').html(output);
+ 
+}
+</script>
+
+
+
+   
+  <body>
+    
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <!-- <a class="navbar-brand" href="#">Drug Abuse</a> -->
+		<!-- <img src="https://www.nimcoinc.com/uploads/image/alcohol%20prevention.jpg" width="100" height="35" alt="logo"/> -->
+		<img src="img/drugabuse.jpg" width="100" height="35" alt="logo"/>
+		<br>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+		  	<br>
+  	       <form id="formID1" name="search">
+			 <!--keyword: <input type="text" name="searchkey"/> -->
+			 <!-- <input type="text" name="searchkey"/> -->
+			 <!--<input type="text" id="myInput" name="searchkey" onkeyup="tableFilter()" placeholder="Search for content.." title="Type in a name"> -->
+		     <input type="text" id="myInput" name="searchkey" onkeyup="tableFilter2()" placeholder="Search for content.." title="Type in a name"> 
+		   </form>
+		   
+		   <button id="btnSearch" class="button button1">
+		   <!-- search -->
+		   <!-- <img src="img/search2.png" id="searchimg"> -->
+		   <img src="img/search2.png" id="searchimg">
+  	       </button>
+           <br>
+		   
+		<!--  <div id="userinfo" > </div>	-->	
+		<div id="userinfo" style="color:white;text-align:center"> </div> 
+			
+        
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+              		
+    		  <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <!--<span class="sr-only">(current)</span> -->
+              </a>
+              </li>
+						 
+			
+			<li class="nav-item">
+              <a class="nav-link" href="/aboutpage">About</a>
+            </li>
+            <li class="nav-item">
+			  <a class="nav-link" href="/loginpage" id="nav_login">Login</a> 
+			  <a class="nav-link" href="/index" id="nav_logout" style="display: none;">Logout</a> 
+			  <!-- <a class="nav-link" href="/Logout" id="nav_logout">Logout</a> -->
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/healthpage">Health Information</a>
+            </li>
+			<li class="nav-item">
+              <a class="nav-link" href="/favlistpage">Favourite List</a>
+            </li>
+			<li class="nav-item">
+              <a class="nav-link" href="/contactpage">Contact Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/signuppage">Register</a>
+            </li>
+            <li id="temperature" style="color:white;text-align:right"> </li> 		
+	 	    <!-- <li id="condition" style="color:white;text-align:right"> </li> -->
+		    <!-- <li id="location" style="color:white;text-align:right"> </li> -->
+			<!-- <li id="humidity" style="color:white;text-align:right"> </li> -->
+			<!-- <img src="" id="searchimg"> -->
+			
+		  </ul>
+        </div>
+		
+
+		
+		
+      </div>
+    </nav>
+
+
+
+    <header>
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <!-- Slide One - Set the background image for this slide in the line below -->
+          <!-- <div class="carousel-item active" style="background-image: url('http://placehold.it/1900x1080')"> --> 
+		  <div class="carousel-item active" style="background-image: url('img/Butane.jpg')"> 
+            <div class="carousel-caption d-none d-md-block">
+              <h3 id="firstH">Drug Addict in Iran</h3>
+              <h4><a href="https://www.independent.co.uk/news/world/middle-east/iran-tehran-drug-addiction-opium-heroin-afghanistan-taliban-a7809046.html">know more ....</a></h4>
+            </div>
+          </div>
+		  		  	  
+          <!-- Slide Two - Set the background image for this slide in the line below -->
+          <!-- <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">  -->
+		  <div class="carousel-item" style="background-image: url('img/pinkandblue.jpg')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3 id="secondH">Drug Abuse Facts</h3>
+              <h4><a href="https://www.drugabuse.gov/publications/drugfacts/understanding-drug-use-addiction">know more ....</a></h4>
+            </div>
+          </div>
+          <!-- Slide Three - Set the background image for this slide in the line below -->
+          <!-- <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">  -->
+		  <div class="carousel-item" style="background-image: url('img/soa.gif')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3 id="thirdH">Human Connectome Projects</h3>
+              <h4><a href="https://www.humanconnectome.org/">know more ....</a></h4>
+            </div>
+          </div>
+        </div>
+		      
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </header>
+
+
+	
+<!-- <table id="myTable">  
+<!-- <tr>	
+	  <td>	-->
+   
+    <!-- Page Content -->
+<div class = "searchable">	<!-- Set Scope for searching -->
+    <section class="py-5">
+      <div class="container">
+        <h2>What can we do on Drug Abuse?</h2>
+		   <hr>
+        <p>Nowadays, drug abuse has been raised a lot of public concern and give community a widespread impact.</p>
+		<p>In this website, we are going to give an overview of those impacts when get involved in drug abuse, provide</p>
+		<p>some useful links and resources to educate young people, and hence offer some guidelines for parents and families</p>
+		<p>to create healthy and safe environments under the dangers of substance abuse.</p>
+        </p>
+      </div>
+    </section>
+</div>
+	
+<!-- 	</td> 
+</tr>	
+</table> -->
+	
+	
+<!-- <table id="myTable">	
+<tr>	
+<!-- 
+	<td>
+	What is a "blind" recruitment advertisement in the context of the Code of Practice on Human Resource Management ("the Code")?
+    </td> 
+</tr> 
+<tr>
+<!--	<td>
+	Generally speaking, a "blind" recruitment advertisement is one that does not identify either the employer or the employment agency acting on its behalf.
+	</td> 
+</tr>
+<tr>
+<!--    <td>	
+	Under what circumstances can job applicants be asked in a recruitment advertisement to submit personal data?
+	</td> 
+</tr>	
+
+</table>	-->
+
+	
+	 <!-- 	<div id="results"></div> -->
+	 <!-- <table id="results"></table> -->
+	 <!-- <table id="results2"></table> -->
+	 
+	 <!-- 	<table id="mytable">  
+          <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+          </tr>
+          <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+          </tr>
+     </table>  -->
+
+<!--  
+  <center>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+ //Post Page - Responsive 
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-5104998679826243"
+     data-ad-slot="3470684978"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center> -->
+
+
+
+  <!-- ================================================
+    Scripts
+    ================================================ -->
+
+  <!-- jQuery Library -->
+ <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <!--materialize js-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+
+<!--  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-27820211-3', 'auto');
+  ga('send', 'pageview');
+
+</script> -->
+
+<script src="//load.sumome.com/" data-sumo-site-id="1cf2c3d548b156a57050bff06ee37284c67d0884b086bebd8e957ca1c34e99a1" async="async"></script>
+
+	 
+	
+	<!-- Footer Information-->
+    <br>
+    <div class = "style3">
+    </div>
+	
+	<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+		<br>
+      <div class="container">
+	    <b>305CDE Assignment 2018. All Rights Reserved.  </b>
+        <a href="/hklawprivacy">Privacy Policy   </a> 
+        <a href="/protectdata">Terms of Service   </a> 
+        <p class="m-0 text-center text-white">Copyright &copy; 305CDE 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+
+</html>

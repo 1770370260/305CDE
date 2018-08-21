@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+  
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+  
+  <title>Registration</title>
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  
+  <!-- CORE CSS-->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">	   
+  
+  <link href="css/style.css" type="text/css " rel="stylesheet"/>
+  <!-- <link href="css/web.css" type="text/css " rel="stylesheet"/> -->
+    
+ 
+<style type="text/css">
+html,
+body {
+    height: 100%;
+}
+html {
+    display: table;
+    margin: auto;
+}
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+.margin {
+  margin: 0 !important;
+}
+</style>
+<style> 
+.highlight{
+    font-weight:bold;
+    color:green;
+    background:yellow;
+}
+</style> 
+</head>
+<script>$(document).ready(function(c) {
+	$('.close').on('click', function(c){
+		$('.login-form').fadeOut('slow', function(c){
+	  		$('.login-form').remove();
+		});
+	});	  
+});
+</script>
+
+
+
+<script>
+$.noConflict();
+jQuery( document ).ready(function( $ ) {
+
+   //$(document).ready(function(){
+   
+   ///var loginFlag = localStorage.getItem("mylogin");
+   //get login information
+    var userdata = localStorage.getItem("mylogin");
+   
+   
+   ///if(loginFlag==""){
+     ///alert("pls login");
+	 //$("#myimage").hide();
+	 //window.location.href="jexample.html";
+	 ///return; 
+   ///} else {
+    ///alert("login success");
+	 //$("#myimage").show();
+	///return; 
+   ///}
+   
+   // API call for temperature
+   var temp = localStorage.getItem("curTemp");
+   //document.getElementById("temperature").innerHTML = temp + "&deg;C";
+   document.getElementById("temperature").innerHTML = localStorage.getItem("curTemp") + "&deg;C";
+   ///alert("user: " + userdata);
+   ///alert("run: " + sessionStorage.getItem("hasCodeRunBefore"));   
+ 
+
+   
+   //get login info
+   var linkedinfo =localStorage.getItem("loginInfo");  
+	
+	loginUpdate(userdata, linkedinfo);
+   
+   
+   //Sign Up process
+	   
+       //$("#mybtn").click(function() {
+    $("#registerbtn").click(function() {
+	   //var user=$("#usrname").val();
+       //var pwd=$("#mypass").val();
+       //var repwd=$("#remypass").val();
+       var user=$("#username").val();
+	   var description=$("#description").val();
+       var pwd=$("#password").val();
+       var repwd=$("#password-again").val();
+	   var email=$("#email").val();
+	   ///alert(user);
+       
+       /// if add those code, ajax cannot be posted.     
+       if(pwd !=repwd){
+       alert("Password not match");    
+       return;
+       }
+
+	   if(!validate()) {
+       alert("Invalid email address");    
+       return;
+       }
+  	   
+       ///} else {
+       ///alert("Password match");
+		///return; 
+       ///}
+   
+       // make an ajax call
+	   //alert($('#formID').serialize());
+	   flag = "0";   //login flag
+	   lastlogin =  new Date();  //login time
+	   
+	   
+	    //var regdata="uame="+user+"&description="+description+"&pwd="+pwd+"&email="+email;
+		var regdata="uame="+user+"&description="+description+"&pwd="+pwd+"&email="+email+"&lastlogin="+lastlogin+"&flag="+flag;
+		//alert("Data="+regdata);
+		
+		$.ajax(
+		{
+			
+            ///dataType: 'jsonp',
+            ///jsonpCallback: '_wrapper',
+            //data: $('#formID').serialize(),
+            ///data: regdata,
+			///type: 'POST',
+            //url: "http://port-9000.305server-collkc471330.codeanyapp.com/Signup",
+			url: "http://127.0.0.1:8080/Signup",
+			type: 'POST',
+			data: regdata,
+			async: false,
+			dataType: 'text',
+			///success: handleButtonResponse,
+			///success: handleButtonResponse(resultReturn),  ///
+			success: function(resultReturn)
+			{
+			 if(resultReturn=="1"){  
+	         alert("Register User successful");        //
+             //alert(data);
+             } else {
+			 alert("User exists, cannot register");        //
+			 }
+			}
+			,error: function (xhr, textStatus, errorThrown) 
+			{
+				alert("error in Sign Up");        //
+				alert(textStatus);                //
+				alert(xhr.responseText);
+      		}
+        });
+
+	///function handleButtonResponse(data)
+    ///{
+	///  alert("Register User successful");        //
+    ///  alert(data);
+      // parse the json string
+    ///  var jsonObject = JSON.parse(data);
+    ///  $('#reponseID1').append( jsonObject.message );
+    ///}
+		
+	   
+    });  
+ 
+    ///localStorage.setItem("mylogin",user);
+	
+	// handle button clicks on search function
+  $("#btnSearch").click(function()
+	{
+		
+		var tempSearch;
+		tempSearch = document.forms["search"]["searchkey"].value;
+		if(tempSearch == "")
+			{
+				alert("Please input your keyword.");
+			}
+		else
+			{
+				
+				var keyword= tempSearch; 
+				var searchdata="searchvalue="+keyword;
+				
+				///alert(searchdata);  ///
+				
+				$("#results").html('');
+		
+				$.ajax(
+				{
+					//url: "http://port-9000.305server-collkc471330.codeanyapp.com/Search",          //codeanywhere
+					url: "http://127.0.0.1:8080/Search",                                             //local server
+					type: 'POST',
+					data: searchdata,
+					success: function(resultReturn)
+					{ 
+						alert("search success=" + resultReturn);
+						var linkeditsearch;
+				  
+				  localStorage.setItem("searchKey",keyword);
+                  localStorage.setItem("searchResult",resultReturn);
+				  
+				  window.location.href ="/Search"; //Go to Search Result Page
+				  
+				  					 					 
+					},error: function (xhr, textStatus, errorThrown) 
+					{
+						alert("search failed");
+						console.log(textStatus);
+                        alert(xhr.responseText);
+      		        }  
+				});
+			}
+        });	
+
+
+	
+	
+	
+	// handle logout button clicks
+       $("#nav_logout").click(function()
+	       {    
+	            var myuser2="user="+userdata; 
+				///alert("callnow "+ myuser2);
+				
+				$.ajax(
+				{
+					//url: "http://port-9000.305server-collkc471330.codeanyapp.com/Logout",   //codeanywhere
+					url: "http://127.0.0.1:8080/Logout",                                      //local server
+					type: 'POST',
+				    data: myuser2,
+					async: false,	
+					success: function(resultReturn)
+					{ 
+			          
+                     ///alert(resultReturn);
+                     //if(resultReturn=="1"){
+                     //window.location.href="/index";
+                     
+					 localStorage.setItem("mylogin","");
+					 userdata= localStorage.getItem("mylogin");
+					 localStorage.setItem("loginInfo","");
+					 linkedinfo = localStorage.getItem("loginInfo");
+					 sessionStorage.setItem("hasCodeRunBefore", "");  //reset login status
+					 ///alert("logout success");
+					 ///alert("logout user:" + userdata);
+					 loginUpdate("","");
+					 //loginUpdate(userdata);
+					 //}else{
+                     //alert("logout error");
+                     //return;
+                     // }
+                        
+				  	},error: function (xhr, textStatus, errorThrown) 
+					{
+						///alert("login failed");
+						alert("logout failed");
+						console.log(textStatus);
+                        alert(xhr.responseText);
+      		        }
+				});
+			
+      });
+
+
+});
+
+//function valid_fn() {
+//   var user= document.getElementById('usrname').value;
+//   var pwd = document.getElementById('mypass').value;
+//   var repwd = document.getElementById('remypass').value;
+
+//   if(pwd !=repwd){
+//     alert("Password not match");    
+//     return; 
+//   } else {
+//     alert("Password match");
+//     return; 
+//   }
+//}
+ 
+</script>
+<script>
+//Update menu bar on login status	
+function loginUpdate(logindata) {	
+		
+			///alert("LOGIN:" + logindata);
+
+            if (logindata != ""){
+				document.getElementById("nav_login").style.display = "none";
+				//document.getElementById("nav_signup").style.display = "none";
+				document.getElementById("nav_logout").style.display = "inline-block";
+				//document.getElementById("nav_editor").style.display = "inline-block";
+				document.getElementById("userinfo").innerHTML = linkedinfo;
+			}
+			else{
+				document.getElementById("nav_logout").style.display = "none";
+				//document.getElementById("nav_editor").style.display = "none";
+				document.getElementById("nav_login").style.display = "inline-block";
+				//document.getElementById("nav_signup").style.display = "inline-block";
+				document.getElementById("userinfo").innerHTML = "";
+				}
+	
+}
+
+//Filter search keyword on current page's content    
+function tableFilter() {
+
+		var input, filter, table, tr, td, i;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("myTable");
+		tr = table.getElementsByTagName("tr");
+		///alert("filter=" + filter);
+		///alert("tr length=" + tr.length);
+		//td =""; //reset table row
+		for (i = 0; i < tr.length; i++) {
+		    			
+			td = tr[i].getElementsByTagName("td")[0];
+			///alert("i="+i);
+			///alert(td);
+			///alert(td.innerHTML.toUpperCase().indexOf(filter));	
+			if (td) {
+				if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+				    var innerHTML = td.innerHTML;
+					var index = td.innerHTML.toUpperCase().indexOf(filter);
+					///alert("innerHTML=" + innerHTML);
+					///alert("index=" + index);
+					innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+filter.length) + "</span>" + innerHTML.substring(index + filter.length);
+	                tr[i].innerHTML = innerHTML;
+					//tr[i].style.display = "";
+				} else {
+					//tr[i].style.display = "none";
+				}
+			}       
+		}
+	}
+
+
+///function highlight(text) {
+///  var inputText = document.getElementById("inputText");
+///  var innerHTML = inputText.innerHTML;
+///  var index = innerHTML.indexOf(text);
+///  if (index >= 0) { 
+///   innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+///   inputText.innerHTML = innerHTML;
+///  }
+///}	
+
+//Highlight whole keyword on current page's content	
+function tableFilter2(){
+
+var term = $('#myInput').val().trim();
+///alert("compare=" +term);
+var source = $('.searchable').text();
+    var words = source.split(' ');
+    var output = '';
+
+    if (term.length > 0) {
+    
+    $.each(words, function(idx, word) {
+        //if (term === word.toLowerCase()) {
+		   ///var compword = "/^" + term +".*$/";  
+		   //alert("compare=" +compword);
+		   //alert("word=" +word);
+		   		   	   
+		    //if (term==word){
+            //alert("higlight=" +word);           
+		    //output += '<span class="highlight">' + word + '</span> ';
+            //} else {
+            // output += word + ' ';   
+            //}
+			
+			switch (word) {
+                   case term:
+					output += ' <span class="highlight"> ' + word + '</span> ';
+					break;
+                    case '<span':
+					output += '';
+					break;
+                    case 'class="highlight">':
+                    output += ''; 
+					break;
+                    case '</span>':
+                	output += '';
+					break;
+					default:
+				    output += word + ' ';
+					break;
+					}
+					
+			
+    });
+
+    
+    } else  { 
+     $.each(words, function(idx, word) {
+     output += word + ' '; 
+     });
+     }
+ 
+    $('.searchable').html(output);
+ 
+}
+</script>
+
+<script>
+//Update menu bar on login status	
+function loginUpdate(logindata, information) {	
+		
+			//alert("LOGIN:" + logindata);
+
+            if (logindata != ""){
+				document.getElementById("nav_login").style.display = "none";
+				//document.getElementById("nav_signup").style.display = "none";
+				document.getElementById("nav_logout").style.display = "inline-block";
+				//document.getElementById("nav_editor").style.display = "inline-block";
+				document.getElementById("userinfo").innerHTML = information;
+			}
+			else{
+				document.getElementById("nav_logout").style.display = "none";
+				//document.getElementById("nav_editor").style.display = "none";
+				document.getElementById("nav_login").style.display = "inline-block";
+				//document.getElementById("nav_signup").style.display = "inline-block";
+				document.getElementById("userinfo").innerHTML = "";
+				}
+	
+}  
+
+//Filter search keyword on current page's content    
+function tableFilter() {
+
+		var input, filter, table, tr, td, i;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("myTable");
+		tr = table.getElementsByTagName("tr");
+		///alert("filter=" + filter);
+		///alert("tr length=" + tr.length);
+		//td =""; //reset table row
+		for (i = 0; i < tr.length; i++) {
+		    			
+			td = tr[i].getElementsByTagName("td")[0];
+			///alert("i="+i);
+			///alert(td);
+			///alert(td.innerHTML.toUpperCase().indexOf(filter));	
+			if (td) {
+				if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+				    var innerHTML = td.innerHTML;
+					var index = td.innerHTML.toUpperCase().indexOf(filter);
+					///alert("innerHTML=" + innerHTML);
+					///alert("index=" + index);
+					innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+filter.length) + "</span>" + innerHTML.substring(index + filter.length);
+	                tr[i].innerHTML = innerHTML;
+					//tr[i].style.display = "";
+				} else {
+					//tr[i].style.display = "none";
+				}
+			}       
+		}
+	}
+
+
+///function highlight(text) {
+///  var inputText = document.getElementById("inputText");
+///  var innerHTML = inputText.innerHTML;
+///  var index = innerHTML.indexOf(text);
+///  if (index >= 0) { 
+///   innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+///   inputText.innerHTML = innerHTML;
+///  }
+///}	
+
+//Highlight whole keyword on current page's content	
+function tableFilter2(){
+
+var term = $('#myInput').val().trim();
+///alert("compare=" +term);
+var source = $('.searchable').text();
+    var words = source.split(' ');
+    var output = '';
+
+    if (term.length > 0) {
+    
+    $.each(words, function(idx, word) {
+        //if (term === word.toLowerCase()) {
+		   ///var compword = "/^" + term +".*$/";  
+		   //alert("compare=" +compword);
+		   //alert("word=" +word);
+		   		   	   
+		    //if (term==word){
+            //alert("higlight=" +word);           
+		    //output += '<span class="highlight">' + word + '</span> ';
+            //} else {
+            // output += word + ' ';   
+            //}
+			
+			switch (word) {
+                   case term:
+					output += ' <span class="highlight"> ' + word + '</span> ';
+					break;
+                    case '<span':
+					output += '';
+					break;
+                    case 'class="highlight">':
+                    output += ''; 
+					break;
+                    case '</span>':
+                	output += '';
+					break;
+					default:
+				    output += word + ' ';
+					break;
+					}
+			
+			
+			
+			
+			
+    });
+
+    
+    } else  { 
+     $.each(words, function(idx, word) {
+     output += word + ' '; 
+     });
+     }
+ 
+    $('.searchable').html(output);
+ 
+}
+
+
+function validateEmail(email) {
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
+function validate() {
+  //var $result = $("#result");
+  var email = $("#email").val();
+  //$result.text("");
+
+  if (validateEmail(email)) {
+    //$result.text(email + " is valid :)");
+    //$result.css("color", "green");
+	return true;
+  } else {
+    //$result.text(email + " is not valid :(");
+    //$result.css("color", "red");
+	return false; 
+  }
+  
+}
+
+
+</script>
+
+
+
+
+
+
+<!-- <body class="blue"> -->
+<body>
+
+  <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <!-- <a class="navbar-brand" href="#">Drug Abuse</a> -->
+		<img src="img/drugabuse.jpg" width="100" height="35" alt="logo"/>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+		  	<br>
+  	       <form id="formID1" name="search">
+			 <!--keyword: <input type="text" name="searchkey"/> -->
+			 <!-- <input type="text" name="searchkey"/> -->
+			 <!-- <input type="text" id="myInput" name="searchkey" onkeyup="tableFilter()" placeholder="Search for content.." title="Type in a name"> -->
+			 <input type="text" id="myInput" name="searchkey" onkeyup="tableFilter2()" placeholder="Search for content.." title="Type in a name"> 
+		   </form>
+  	       <button id="btnSearch" class="button button1">
+    	   <!-- search -->
+		   <img src="img/search2.png" id="searchimg">
+  	       </button>
+           <br>
+		
+		<div id="userinfo" style="color:white;text-align:center"> </div>	
+		
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+		      			  
+    		  <li class="nav-item">
+              <a class="nav-link" href="/index">Home
+                <!--<span class="sr-only">(current)</span> -->
+              </a>
+              </li>
+						 
+			
+			<li class="nav-item">
+              <a class="nav-link" href="/aboutpage">About</a>
+            </li>
+            <li class="nav-item">
+			  <a class="nav-link" href="/loginpage" id="nav_login">Login</a> 
+			  <a class="nav-link" href="/index" id="nav_logout" style="display: none;">Logout</a> 
+			  <!-- <a class="nav-link" href="/Logout" id="nav_logout">Logout</a> -->
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/healthpage">Health Information</a>
+            </li>
+			<li class="nav-item">
+              <a class="nav-link" href="/favlistpage">Favourite List</a>
+            </li>
+			<li class="nav-item">
+              <a class="nav-link" href="/contactpage">Contact Us</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Register</a>
+            </li>
+			<li id="temperature" style="color:white;text-align:right"> </li> 	
+		  </ul>
+        </div>
+      </div>
+    </nav>
+ 
+    <br> <br> <br>
+ 
+<div class = "searchable">	<!-- Set Scope for searching -->
+
+<!--   <div id="login-page" class="row"> -->
+<!--    <div class="col s12 z-depth-6 card-panel"> --> 
+	<div class="container">
+      <div class="row">
+       <div class="col-lg-8 col-md-10 mx-auto">
+	<form class="login-form">
+        <div class="row">
+          <div class="input-field col s12 center">
+            <img src="img/drugabuse.jpg" alt="" class="responsive-img valign profile-image-login">
+            <p class="center login-form-text">305 CDE Assignment - Drug Abuse Information</p>
+          </div>
+        </div>
+		
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-social-person-outline prefix"></i>
+            <input id="username" type="text" class="validate" style="color:black">
+            <label for="username" class="center-align">Login name</label>
+          </div>
+        </div>
+		
+		<div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-social-person-outline prefix"></i>
+            <input id="description" type="text" class="validate" style="color:black">
+            <label for="description" class="center-align">Description</label>
+          </div>
+        </div>
+				
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-communication-email prefix"></i>
+            <input id="email" type="email" class="validate" style="color:black">
+            <label for="email" class="center-align">Email</label>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-action-lock-outline prefix"></i>
+            <input id="password" type="password" class="validate" style="color:black">
+            <label for="password">Password</label>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-action-lock-outline prefix"></i>
+            <input id="password-again" type="password" style="color:black">
+            <label for="password-again">Re-type password</label>
+          </div>
+        </div>
+		<!--<div class="row margin">
+		   <p id="reponseID1"></p>
+        </div> -->
+		<div class="row">
+          <div class="input-field col s12">
+            <!-- <a href="register.html" class="btn waves-effect waves-light col s12">Register</a> -->
+			<a href="" class="btn waves-effect waves-light col s12" id="registerbtn">Register</a>
+          </div>
+          <div class="input-field col s12">
+            <!-- <p class="margin center medium-small sign-up">Already have an account? <a href="login.html">Login</a></p> -->
+			<p class="margin center medium-small sign-up">Already have an account? <a href="/Login">Login</a></p>
+          </div>
+        </div>
+      </form>
+	  </div>
+    </div>
+  </div>
+
+</div>
+
+<!--  
+  <center>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+ //Post Page - Responsive 
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-5104998679826243"
+     data-ad-slot="3470684978"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center> -->
+
+
+  <!-- ================================================
+    Scripts
+    ================================================ -->
+
+  <!-- jQuery Library -->
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> 
+  <!--materialize js -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script> 
+
+
+
+<!--  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-27820211-3', 'auto');
+  ga('send', 'pageview');
+
+</script> -->
+<script src="//load.sumome.com/" data-sumo-site-id="1cf2c3d548b156a57050bff06ee37284c67d0884b086bebd8e957ca1c34e99a1" async="async"></script>
+
+
+<!--     <footer class="page-footer">
+          <div class="footer-copyright">
+            <div class="container">
+            © 2018 305CDE Lesson
+            <a class="grey-text text-lighten-4 right" href="http://w3lessons.info"> Copyright &copy; 305CDE 2018</a>
+            </div>
+          </div>
+  </footer> -->
+   
+  <!-- Footer Information -->
+   <br>
+   <div class = "style3">
+   </div>
+	
+	<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    <!-- Footer  -->
+    <footer class="py-5 bg-dark">
+		<br>
+      <div class="container">
+	    <b>305CDE Assignment 2018. All Rights Reserved. </b>
+        <a href="/hklawprivacy">Privacy Policy   </a> 
+        <a href="/protectdata">Terms of Service   </a> 
+        <p class="m-0 text-center text-white">Copyright &copy; 305CDE 2018</p>
+      </div>
+      <!-- /.container  --> 
+    </footer> 
+
+  
+  <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+</body>
+
+</html>
